@@ -15,7 +15,7 @@
         }
 
         .hero-section {
-            
+           
             height: 75vh;
             background: linear-gradient(rgba(4, 30, 66, 0.8), rgba(4, 30, 66, 0.8)), 
                         url('https://upload.wikimedia.org/wikipedia/commons/9/92/Westgate_Building_Penn_State.jpg');
@@ -98,7 +98,7 @@
     <footer>
         <div class="container">
             <p>Penn State College of Information Sciences and Technology</p>
-            <p class="small opacity-50">Student Lab Project - Not an official site</p>
+            
         </div>
     </footer>
 
