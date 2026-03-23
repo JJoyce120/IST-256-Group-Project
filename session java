@@ -1,6 +1,6 @@
 let sessions = JSON.parse(localStorage.getItem("sessions")) || [];
 
-// Display
+
 function displaySessions(data = sessions) {
     let output = "";
 
@@ -23,12 +23,12 @@ function displaySessions(data = sessions) {
     document.getElementById("sessionTable").innerHTML = output;
 }
 
-// Save
+
 function saveSessions() {
     localStorage.setItem("sessions", JSON.stringify(sessions));
 }
 
-// Submit
+
 document.getElementById("sessionForm").addEventListener("submit", function(e) {
     e.preventDefault();
 
@@ -64,7 +64,7 @@ document.getElementById("sessionForm").addEventListener("submit", function(e) {
     this.reset();
 });
 
-// Edit
+
 function editSession(id) {
     let s = sessions.find(x => x.id === id);
 
@@ -76,14 +76,14 @@ function editSession(id) {
     document.getElementById("speaker").value = s.speaker;
 }
 
-// Delete
+
 function deleteSession(id) {
     sessions = sessions.filter(s => s.id !== id);
     saveSessions();
     displaySessions();
 }
 
-// jQuery Search
+
 $("#search").on("keyup", function() {
     let val = $(this).val().toLowerCase();
 
@@ -95,5 +95,5 @@ $("#search").on("keyup", function() {
     displaySessions(filtered);
 });
 
-// Load
+
 displaySessions();
