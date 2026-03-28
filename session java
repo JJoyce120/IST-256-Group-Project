@@ -1,0 +1,99 @@
+let sessions = JSON.parse(localStorage.getItem("sessions")) || [];
+
+
+function displaySessions(data = sessions) {
+    let output = "";
+
+    data.forEach(s => {
+        output += `
+        <tr>
+            <td>${s.id}</td>
+            <td>${s.title}</td>
+            <td>${s.category}</td>
+            <td>${s.duration}</td>
+            <td>${s.price}</td>
+            <td>${s.speaker}</td>
+            <td>
+                <button class="btn btn-warning btn-sm" onclick="editSession(${s.id})">Edit</button>
+                <button class="btn btn-danger btn-sm" onclick="deleteSession(${s.id})">Delete</button>
+            </td>
+        </tr>`;
+    });
+
+    document.getElementById("sessionTable").innerHTML = output;
+}
+
+
+function saveSessions() {
+    localStorage.setItem("sessions", JSON.stringify(sessions));
+}
+
+
+document.getElementById("sessionForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    let id = document.getElementById("sessionId").value;
+    let title = document.getElementById("title").value.trim();
+    let category = document.getElementById("category").value.trim();
+    let duration = document.getElementById("duration").value.trim();
+    let price = document.getElementById("price").value.trim();
+    let speaker = document.getElementById("speaker").value.trim();
+
+    if (!title || !category || !duration || !price) {
+        alert("Please fill all required fields!");
+        return;
+    }
+
+    if (id) {
+        sessions = sessions.map(s =>
+            s.id == id ? { id: Number(id), title, category, duration, price, speaker } : s
+        );
+    } else {
+        sessions.push({
+            id: Date.now(),
+            title,
+            category,
+            duration,
+            price,
+            speaker
+        });
+    }
+
+    saveSessions();
+    displaySessions();
+    this.reset();
+});
+
+
+function editSession(id) {
+    let s = sessions.find(x => x.id === id);
+
+    document.getElementById("sessionId").value = s.id;
+    document.getElementById("title").value = s.title;
+    document.getElementById("category").value = s.category;
+    document.getElementById("duration").value = s.duration;
+    document.getElementById("price").value = s.price;
+    document.getElementById("speaker").value = s.speaker;
+}
+
+
+function deleteSession(id) {
+    sessions = sessions.filter(s => s.id !== id);
+    saveSessions();
+    displaySessions();
+}
+
+
+$("#search").on("keyup", function() {
+    let val = $(this).val().toLowerCase();
+
+    let filtered = sessions.filter(s =>
+        s.title.toLowerCase().includes(val) ||
+        s.category.toLowerCase().includes(val)
+    );
+
+    displaySessions(filtered);
+});
+
+
+displaySessions();
