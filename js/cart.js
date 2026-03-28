@@ -1,9 +1,20 @@
-document.addEventListener("DOMContentLoaded", function () {
+
+$(document).ready(function () {
     loadProducts();
     loadCart();
 
-    document.getElementById("searchInput").addEventListener("input", searchProducts);
+
+    $("#searchInput").on("input", function () {
+        let input = $(this).val().toLowerCase();
+
+        let filtered = products.filter(p =>
+            p.description.toLowerCase().includes(input)
+        );
+
+        displayProducts(filtered);
+    });
 });
+
 
 let products = [
     {
@@ -29,26 +40,30 @@ let products = [
     }
 ];
 
+
 let cart = [];
 
+
 function loadProducts() {
-    const productList = document.getElementById("productList");
-    productList.innerHTML = "";
+    displayProducts(products);
+}
 
-    products.forEach(p => {
-        const div = document.createElement("div");
-        div.className = "card p-2 m-2";
+function displayProducts(productArray) {
+    const productList = $("#productList");
+    productList.empty();
 
-        div.innerHTML = `
-            <h5>${p.description}</h5>
-            <p>Category: ${p.category}</p>
-            <p>Price: $${p.price}</p>
-            <button onclick="addToCart(${p.id})">Add to Cart</button>
-        `;
-
-        productList.appendChild(div);
+    productArray.forEach(p => {
+        productList.append(`
+            <div class="card p-2 m-2">
+                <h5>${p.description}</h5>
+                <p>Category: ${p.category}</p>
+                <p>Price: $${p.price}</p>
+                <button onclick="addToCart(${p.id})">Add to Cart</button>
+            </div>
+        `);
     });
 }
+
 
 function addToCart(id) {
     let product = products.find(p => p.id === id);
@@ -57,27 +72,30 @@ function addToCart(id) {
     updateCart();
 }
 
+
 function removeFromCart(id) {
     cart = cart.filter(item => item.id !== id);
     updateCart();
 }
 
+
 function updateCart() {
-    const cartList = document.getElementById("cartList");
-    cartList.innerHTML = "";
+    const cartList = $("#cartList");
+    cartList.empty();
 
     cart.forEach(item => {
-        const li = document.createElement("li");
-        li.innerHTML = `
-            ${item.description} - $${item.price}
-            <button onclick="removeFromCart(${item.id})">Remove</button>
-        `;
-        cartList.appendChild(li);
+        cartList.append(`
+            <li>
+                ${item.description} - $${item.price}
+                <button onclick="removeFromCart(${item.id})">Remove</button>
+            </li>
+        `);
     });
 
-    // Save as JSON
+    // Save to JSON (localStorage)
     localStorage.setItem("cart", JSON.stringify(cart));
 }
+
 
 function loadCart() {
     let saved = localStorage.getItem("cart");
@@ -87,23 +105,17 @@ function loadCart() {
     }
 }
 
-function searchProducts() {
-    let input = document.getElementById("searchInput").value.toLowerCase();
-
-    let filtered = products.filter(p =>
-        p.description.toLowerCase().includes(input)
-    );
-
-    const productList = document.getElementById("productList");
-    productList.innerHTML = "";
-
-    filtered.forEach(p => {
-        const div = document.createElement("div");
-        div.innerHTML = `
-            <h5>${p.description}</h5>
-            <p>$${p.price}</p>
-            <button onclick="addToCart(${p.id})">Add to Cart</button>
-        `;
-        productList.appendChild(div);
+function sendCartToAPI() {
+    $.ajax({
+        url: "https://example.com/api/cart", // placeholder
+        method: "POST",
+        data: JSON.stringify(cart),
+        contentType: "application/json",
+        success: function () {
+            alert("Cart sent successfully!");
+        },
+        error: function () {
+            alert("Error sending cart.");
+        }
     });
 }
