@@ -91,9 +91,8 @@ function updateCart() {
             </li>
         `);
     });
-
-    // Save to JSON (localStorage)
     localStorage.setItem("cart", JSON.stringify(cart));
+    $("#jsonOutput").text(JSON.stringify(cart, null, 2));
 }
 
 
