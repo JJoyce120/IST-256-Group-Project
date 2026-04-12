@@ -53,12 +53,15 @@
     <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
         <div class="container">
             <a class="navbar-brand fw-bold" href="index.html">PSU IST SYMPOSIUM</a>
-            <div class="navbar-nav ms-auto">
-                <a class="nav-link active" href="index.html">Home</a>
-                <a class="nav-link" href="register.html">Register</a>
+                <div class="navbar-nav ms-auto">
+                    <a class="nav-link active" href="index.html">Home</a>
+                    <a class="nav-link" href="register.html">Register</a>
+                    <a class="nav-link" href="cart.html">Cart</a>
+                    <a class="nav-link" href="history.html">History</a>
+                    <a class="nav-link" href="approval.html">Approval</a>
+                </div>
             </div>
-        </div>
-    </nav>
+        </nav>
 
     <header class="hero-section">
         <div class="container">
