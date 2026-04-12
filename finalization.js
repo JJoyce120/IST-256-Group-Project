@@ -54,15 +54,15 @@ document.getElementById("finalForm").addEventListener("submit", function(e){
 // AJAX (REQUIRED)
 function sendToAPI(data){
     $.ajax({
-        url: "https://example.com/api/register",
+        url: "http://localhost:3000/submissions",
         method: "POST",
         data: JSON.stringify(data),
         contentType: "application/json",
         success: function(){
-            alert("Registration sent!");
+            alert("Registration saved!");
         },
         error: function(){
-            alert("API not implemented (expected)");
+            alert("Error connecting to server");
         }
     });
 }
